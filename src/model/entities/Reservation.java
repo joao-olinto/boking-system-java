@@ -1,8 +1,8 @@
 package model.entities;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Reservation {
 
@@ -42,15 +42,15 @@ public class Reservation {
 	// Method for calculating customer stay.
 	public int duration() {
 
-		// Calculates the duration between the check-in and check-out dates.
-		Period periodStay = Period.between(getCheckIn(), getCheckOut());
-
-		// Convert to whole and return the days
-		return periodStay.getDays();
+		
+		return (int) ChronoUnit.DAYS.between(getCheckIn(), getCheckOut());
 
 	}
 
-	public void UpdateDates(LocalDate checkIn, LocalDate checkOut) {
+	/* Update customer check-in and check-out dates.
+	 * The only way to modify the check-in e check-out dates.
+	 */
+	public void updateDates(LocalDate checkIn, LocalDate checkOut) {
 
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -58,10 +58,10 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		
-		//date formatter
+
+		// date formatter
 		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("Reservation: ").append("Room " + getRoomNumber());
 		sb.append(", check-in: " + getCheckIn().format(fmt)).append(", check-out: " + getCheckOut().format(fmt));
